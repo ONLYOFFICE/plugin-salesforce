@@ -1,0 +1,28 @@
+.login-page {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	background-color: var(--color-bg);
+	color: var(--color-text);
+}
+
+.login-page__content {
+	padding: var(--spacing-xl);
+}
+
+.login-page__spacing {
+	margin-bottom: 10px;
+}
+
+.login-page__label-spacing {
+	margin-bottom: 4px;
+}
+
+.login-page__footer {
+	display: flex;
+	justify-content: flex-end;
+
+	margin-top: auto;
+	padding: 18px var(--spacing-xl);
+}

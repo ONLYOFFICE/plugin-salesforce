@@ -1,0 +1,9 @@
+.label {
+	display: block;
+
+	font-family: var(--font-family);
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-md);
+	letter-spacing: var(--letter-spacing);
+}

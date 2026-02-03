@@ -1,0 +1,47 @@
+.error-box {
+	display: flex;
+	flex-direction: column;
+
+	gap: 4px;
+	padding: 10px;
+	margin-top: 10px;
+
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+
+	background-color: var(--color-bg);
+}
+
+.error-box__header {
+	display: flex;
+	align-items: center;
+
+	gap: 8px;
+}
+
+.error-box__icon {
+	width: 12px;
+	height: 12px;
+
+	flex-shrink: 0;
+}
+
+.error-box__title {
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-bold);
+	line-height: var(--line-height-md);
+	letter-spacing: var(--letter-spacing);
+
+	color: var(--btn-link-color);
+}
+
+.error-box__message {
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-sm);
+	letter-spacing: var(--letter-spacing);
+
+	color: var(--color-text-secondary);
+}

@@ -1,0 +1,24 @@
+.source-step {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+}
+
+.source-step__content {
+	flex: 1;
+	margin-bottom: 24px;
+}
+
+.source-step__paragraph {
+	margin: 0 0 16px 0;
+}
+
+.source-step__paragraph:last-child {
+	margin-bottom: 0;
+}
+
+.source-step__actions {
+	display: flex;
+	justify-content: center;
+}

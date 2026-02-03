@@ -1,0 +1,66 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#app {
+	background-color: var(--color-bg);
+}
+
+.button-group {
+	margin-top: 10px;
+}
+
+.divider {
+	margin: 10px 0;
+
+	border: none;
+	border-top: 1px solid var(--color-border);
+}
+
+.error-message {
+	padding: 8px;
+	margin-bottom: 8px;
+
+	color: var(--color-error);
+}
+
+.fields-actions {
+	display: flex;
+
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.selected-objects-list {
+	display: flex;
+	flex-direction: column;
+
+	gap: 4px;
+	margin-bottom: 12px;
+}
+
+.selected-object-item {
+	padding: 4px 0;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+
+	color: var(--color-text);
+}
+
+.filter-add-row {
+	display: flex;
+	justify-content: flex-end;
+
+	margin-top: 8px;
+}

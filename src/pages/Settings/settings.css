@@ -1,0 +1,35 @@
+.settings-page {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	background-color: var(--color-bg);
+	color: var(--color-text);
+}
+
+.settings-page__content {
+	padding: var(--spacing-xl);
+}
+
+.settings-page__spacing {
+	margin-bottom: 10px;
+}
+
+.settings-page__label-spacing {
+	margin-bottom: var(--spacing-md);
+}
+
+.settings-page__buttons {
+	display: flex;
+	flex-direction: column;
+
+	gap: var(--spacing-md);
+}
+
+.settings-page__footer {
+	display: flex;
+	justify-content: flex-end;
+
+	margin-top: auto;
+	padding: var(--spacing-lg) var(--spacing-xl);
+}

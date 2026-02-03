@@ -1,0 +1,161 @@
+import { useEffect } from 'preact/hooks';
+import { useLocation } from 'preact-iso';
+
+import {
+  Layout, Header, Footer, LoadingIndicator, SuccessMessage, ErrorBox, PageTransition,
+} from '@components';
+
+import {
+  SourceStep,
+  ObjectStep,
+  MappingStep,
+  useExport,
+} from '@features/export';
+import { useAuthentication } from '@features/authentication';
+
+import { useTranslation } from '@hooks';
+
+export function Export() {
+  const { route } = useLocation();
+  const { t, isReady } = useTranslation();
+  const { isAuthenticated } = useAuthentication();
+
+  const {
+    step,
+    loading,
+    error,
+    sheetData,
+    objects,
+    selectedObject,
+    objectFields,
+    operation,
+    mappings,
+    idColumn,
+    result,
+    loadSheetData,
+    loadObjects,
+    selectObject,
+    setOperation,
+    updateMapping,
+    setIdColumn,
+    submit,
+    reset,
+    goTo,
+  } = useExport();
+
+  useEffect(() => {
+    if (!isAuthenticated.value) route('/login');
+  }, [route, isAuthenticated.value]);
+
+  if (!isReady) {
+    return (
+      <Layout
+        header={<Header title="" onBack={() => route('/')} />}
+        footer={<Footer onConfigure={() => route('/settings')} />}
+      >
+        <></>
+      </Layout>
+    );
+  }
+
+  const renderContent = () => {
+    switch (step) {
+      case 'source':
+        return (
+          <>
+            <SourceStep
+              loading={loading}
+              onLoadData={loadSheetData}
+            />
+            {error && <ErrorBox title={t('common.error')} message={error} />}
+          </>
+        );
+
+      case 'object':
+        return sheetData ? (
+          <>
+            <ObjectStep
+              sheetData={sheetData}
+              objects={objects}
+              loading={loading}
+              error={error}
+              onLoadObjects={loadObjects}
+              onSelect={selectObject}
+              onBack={() => goTo('source')}
+            />
+            {error && <ErrorBox title={t('common.error')} message={error} />}
+          </>
+        ) : null;
+
+      case 'mapping':
+        return sheetData ? (
+          <>
+            <MappingStep
+              objectName={selectedObject}
+              fields={objectFields}
+              mappings={mappings}
+              operation={operation}
+              idColumn={idColumn}
+              headers={sheetData.headers}
+              rowCount={sheetData.rows.length}
+              loading={loading}
+              canSubmit={mappings.some((m) => m.targetField)}
+              onOperationChange={setOperation}
+              onMappingChange={updateMapping}
+              onIdColumnChange={setIdColumn}
+              onBack={() => goTo('object')}
+              onSubmit={submit}
+            />
+            {error && <ErrorBox title={t('common.error')} message={error} />}
+          </>
+        ) : null;
+
+      case 'loading':
+        return <LoadingIndicator message={t('export.exporting')} />;
+
+      case 'success':
+        return (
+          <SuccessMessage
+            message={
+              result?.success
+                ? t('export.export_completed_success_single')
+                : (result?.successCount === 0
+                    ? t('export.export_with_errors_alt', {
+                        failed: result?.errorCount ?? 0,
+                      })
+                    : t('export.export_with_errors', {
+                        success: result?.successCount ?? 0,
+                        failed: result?.errorCount ?? 0,
+                      }))
+            }
+            actions={[
+              { label: t('export.export_more'), onClick: reset },
+            ]}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const isLoading = step === 'loading';
+  const isSuccess = step === 'success';
+
+  const getHeader = () => {
+    if (isLoading) return null;
+    if (isSuccess) return <Header title={t('export.title')} onBack={() => route('/')} />;
+    return <Header title={t('export.title')} onBack={() => route('/')} />;
+  };
+
+  return (
+    <Layout
+      header={getHeader()}
+      footer={isLoading ? null : <Footer onConfigure={() => route('/settings')} />}
+    >
+      <PageTransition step={step}>
+        {renderContent()}
+      </PageTransition>
+    </Layout>
+  );
+}

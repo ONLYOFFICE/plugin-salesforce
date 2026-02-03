@@ -1,0 +1,49 @@
+:root {
+	--page-transition-duration: 0.2s;
+	--page-transition-duration-loading: 0.15s;
+	--page-transition-duration-success: 0.25s;
+	--page-transition-translate-y: 8px;
+}
+
+@keyframes page-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(var(--page-transition-translate-y));
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes page-fade-out {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(calc(-1 * var(--page-transition-translate-y)));
+	}
+}
+
+.page-transition {
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+
+	animation: page-fade-in var(--page-transition-duration) var(--transition-easing) forwards;
+}
+
+.page-transition--loading {
+	animation-duration: var(--page-transition-duration-loading);
+}
+
+.page-transition--success {
+	animation-duration: var(--page-transition-duration-success);
+}
+
+.page-enter {
+	animation: page-fade-in var(--page-transition-duration) var(--transition-easing) forwards;
+}

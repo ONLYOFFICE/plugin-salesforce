@@ -1,0 +1,27 @@
+.confirmation {
+	--confirmation-opacity: 1;
+}
+
+.confirmation {
+	width: 291px;
+	height: 71px;
+	padding: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	opacity: var(--confirmation-opacity);
+}
+
+.confirmation__message {
+	margin: 0;
+	width: 100%;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-md);
+	letter-spacing: var(--letter-spacing);
+
+	color: var(--color-text);
+	text-align: left;
+}

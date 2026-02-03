@@ -1,0 +1,15 @@
+.form-group {
+	margin-bottom: 10px;
+}
+
+.form-group__label {
+	display: block;
+
+	margin-bottom: 4px;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-bold);
+	line-height: var(--line-height-md);
+	letter-spacing: var(--letter-spacing);
+}

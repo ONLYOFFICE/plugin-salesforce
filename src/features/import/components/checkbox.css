@@ -1,0 +1,22 @@
+.checkbox-list__actions {
+	display: flex;
+
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.fields-list {
+	max-height: 200px;
+
+	margin: 8px 0;
+
+	overflow-y: auto;
+}
+
+.field-item {
+	display: flex;
+	align-items: center;
+
+	gap: 8px;
+	padding: 4px 0;
+}

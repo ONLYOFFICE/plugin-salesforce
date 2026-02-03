@@ -1,0 +1,37 @@
+.collapsible__toggle {
+	padding: 0;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-md);
+	letter-spacing: var(--letter-spacing);
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	text-underline-offset: 2px;
+	
+	border: none;
+
+	outline: none;
+	background: none;
+	color: var(--btn-link-color);
+	cursor: pointer;
+}
+
+.collapsible__toggle:focus-visible {
+	outline-offset: 2px;
+	outline: 1px solid var(--color-accent);
+}
+
+.collapsible__content {
+	padding: 0;
+	margin: 10px 0;
+}
+
+.collapsible__content .form-group {
+	margin-bottom: 8px;
+}
+
+.collapsible__content .form-group:last-child {
+	margin-bottom: 0;
+}

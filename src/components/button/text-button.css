@@ -1,0 +1,23 @@
+.text-button {
+	padding: 4px 0;
+
+	border: none;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	text-underline-offset: 2px;
+	text-decoration: underline;
+	
+	cursor: pointer;
+	background: none;
+	color: var(--btn-link-color);
+}
+
+.text-button:hover:not(:disabled) {
+	color: var(--btn-link-color-hover);
+}
+
+.text-button:disabled {
+	color: var(--color-text-muted);
+	cursor: not-allowed;
+}

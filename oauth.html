@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salesforce</title>
+</head>
+<body spellcheck="false" class="noselect">
+    <script>
+        (function () {
+            function parseLocation() {
+                try {
+                    const hash = window.location.hash.slice(1);
+                    if (hash && window.opener) {
+                        const params = Object.fromEntries(new URLSearchParams(hash));
+                        window.opener.postMessage({ type: 'salesforce_auth', params }, '*');
+                    }
+                } finally {
+                    window.close();
+                }
+            }
+
+            window.onload = parseLocation;
+        })();
+    </script>
+</body>
+</html>

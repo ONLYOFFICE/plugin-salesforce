@@ -26,7 +26,7 @@ interface SoqlEditorProps {
 
 export function SoqlEditor({ params }: SoqlEditorProps) {
   const { t } = useTranslation();
-  
+
   const [query, setQuery] = useState(params.get('query') || '');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

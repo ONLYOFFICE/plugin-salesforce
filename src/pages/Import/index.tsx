@@ -58,7 +58,7 @@ export function Import() {
         header={<Header title="" onBack={() => route('/')} />}
         footer={<Footer onConfigure={() => route('/settings')} />}
       >
-        <></>
+        {null}
       </Layout>
     );
   }

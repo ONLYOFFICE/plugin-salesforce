@@ -287,7 +287,9 @@ export function ModalRenderer() {
   if (!Component) {
     return (
       <div style={{ padding: 20, textAlign: 'center' }}>
-        {tHook('Common.unknownModal')}: {componentName}
+        {tHook('Common.unknownModal')}
+        :
+        {componentName}
       </div>
     );
   }

@@ -10,7 +10,7 @@ interface FooterProps {
 
 export function Footer({ onConfigure }: FooterProps) {
   const { t } = useTranslation();
-  
+
   return (
     <div className="layout__footer">
       <Button variant="link" onClick={onConfigure}>

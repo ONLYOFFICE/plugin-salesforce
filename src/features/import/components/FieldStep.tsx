@@ -1,4 +1,6 @@
-import { useMemo, useState, useRef, useEffect } from 'preact/hooks';
+import {
+  useMemo, useState, useRef, useEffect,
+} from 'preact/hooks';
 
 import {
   Button, Label, MultiSelect, ErrorBox, Select,
@@ -77,15 +79,15 @@ export function FieldStep({
   const [filterVal, setFilterVal] = useState('');
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const dateRef = useRef<HTMLInputElement>(null);
-  
+
   useEffect(() => {
     const checkTheme = () => {
-      const body = document.body;
+      const { body } = document;
       setIsDarkTheme(
-        body.classList.contains('theme-dark') ||
-        body.classList.contains('theme-contrast-dark') ||
-        body.classList.contains('theme-night') ||
-        body.classList.contains('theme-type-dark')
+        body.classList.contains('theme-dark')
+        || body.classList.contains('theme-contrast-dark')
+        || body.classList.contains('theme-night')
+        || body.classList.contains('theme-type-dark'),
       );
     };
 

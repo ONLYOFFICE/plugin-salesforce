@@ -67,8 +67,7 @@ export function Settings() {
   if (!isReady) {
     return (
       <div className="settings-page page-enter">
-        <div className="settings-page__content">
-        </div>
+        <div className="settings-page__content" />
       </div>
     );
   }
@@ -78,12 +77,17 @@ export function Settings() {
       <div className="settings-page__content">
         <div className="settings-page__spacing">
           <Paragraph>
-            {t('settings.logged_in_as')} {userName || t('settings.user_name')}
+            {t('settings.logged_in_as')}
+            {' '}
+            {userName || t('settings.user_name')}
           </Paragraph>
         </div>
 
         <div className="settings-page__label-spacing">
-          <Label>{t('auth.environment')}:</Label>
+          <Label>
+            {t('auth.environment')}
+            :
+          </Label>
         </div>
         <div className="settings-page__spacing">
           <Select

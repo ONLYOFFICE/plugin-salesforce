@@ -18,10 +18,10 @@ export function FilterToggle({
   children,
 }: FilterToggleProps) {
   const { t } = useTranslation();
-  
+
   const displayLabel = label || t('filters.show_filters');
   const hideLabel = t('filters.hide_filters');
-  
+
   return (
     <>
       <div className="form-group">

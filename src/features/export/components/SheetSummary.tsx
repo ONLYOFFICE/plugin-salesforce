@@ -11,7 +11,7 @@ interface SheetSummaryProps {
 
 export function SheetSummary({ sheetData, maxHeaders = 3 }: SheetSummaryProps) {
   const { t } = useTranslation();
-  
+
   const { headers, rows } = sheetData;
   const headerPreview = headers.slice(0, maxHeaders).join(', ');
   const hasMore = headers.length > maxHeaders;
@@ -19,15 +19,24 @@ export function SheetSummary({ sheetData, maxHeaders = 3 }: SheetSummaryProps) {
   return (
     <dl className="sheet-info">
       <div className="sheet-info__row">
-        <dt className="sheet-info__label">{t('export.columns')}:</dt>
+        <dt className="sheet-info__label">
+          {t('export.columns')}
+          :
+        </dt>
         <dd className="sheet-info__value">{headers.length}</dd>
       </div>
       <div className="sheet-info__row">
-        <dt className="sheet-info__label">{t('export.rows')}:</dt>
+        <dt className="sheet-info__label">
+          {t('export.rows')}
+          :
+        </dt>
         <dd className="sheet-info__value">{rows.length}</dd>
       </div>
       <div className="sheet-info__row">
-        <dt className="sheet-info__label">{t('export.headers')}:</dt>
+        <dt className="sheet-info__label">
+          {t('export.headers')}
+          :
+        </dt>
         <dd className="sheet-info__value">
           {headerPreview}
           {hasMore && '...'}

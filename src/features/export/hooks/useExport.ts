@@ -11,17 +11,19 @@ import { useModals } from '@store/modal';
 import { useTranslation } from '@hooks';
 
 import type { SheetData } from '@api/spreadsheet';
-import { createRecordsBatch, updateRecordsBatch, type ExportResult, type SalesforceField } from '@api/salesforce';
+import {
+  createRecordsBatch, updateRecordsBatch, type ExportResult, type SalesforceField,
+} from '@api/salesforce';
 
 function normalizeValue(value: unknown): unknown {
   if (value == null || value === '') return null;
-  
+
   if (typeof value === 'string') {
     const upper = value.toUpperCase().trim();
     if (upper === 'TRUE' || upper === '1' || upper === 'YES') return true;
     if (upper === 'FALSE' || upper === '0' || upper === 'NO') return false;
   }
-  
+
   return value;
 }
 
@@ -33,13 +35,13 @@ function buildRecord(
 ): Record<string, unknown> {
   const record: Record<string, unknown> = {};
   const fieldMap = new Map(fields.map((f) => [f.name, f.type]));
-  
+
   for (const { sourceColumn, targetField } of mappings) {
     const colIndex = headers.indexOf(sourceColumn);
     if (colIndex >= 0) {
       const rawValue = row[colIndex];
       const fieldType = fieldMap.get(targetField);
-      
+
       let normalizedValue = normalizeValue(rawValue);
       if ((fieldType === 'boolean' || fieldType === 'Checkbox') && typeof normalizedValue !== 'boolean') {
         if (typeof normalizedValue === 'string') {
@@ -49,7 +51,7 @@ function buildRecord(
           normalizedValue = Boolean(normalizedValue);
         }
       }
-      
+
       record[targetField] = normalizedValue;
     }
   }
@@ -86,7 +88,7 @@ export function useExport() {
   const { state } = useAuthentication();
   const { confirm } = useModals();
   const { t } = useTranslation();
-  
+
   const credentials = state.value;
 
   const sheet = useSheetData();

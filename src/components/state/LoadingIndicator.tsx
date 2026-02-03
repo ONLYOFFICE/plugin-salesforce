@@ -8,7 +8,7 @@ interface LoadingIndicatorProps {
 
 export function LoadingIndicator({ message }: LoadingIndicatorProps) {
   const { t, isReady } = useTranslation();
-  
+
   return (
     <div className="loading-state">
       <p className="loading-state__message">

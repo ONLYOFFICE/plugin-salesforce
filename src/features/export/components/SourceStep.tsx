@@ -12,7 +12,7 @@ interface SourceStepProps {
 export function SourceStep({ loading, onLoadData }: SourceStepProps) {
   const { t } = useTranslation();
   const hasSelection = useHasSelection();
-  
+
   return (
     <div className="source-step">
       <div className="source-step__content">
@@ -25,14 +25,14 @@ export function SourceStep({ loading, onLoadData }: SourceStepProps) {
       </div>
 
       <div className="source-step__actions">
-      <Button
-        variant="primary"
-        fullWidth
-        onClick={onLoadData}
-        disabled={loading || !hasSelection}
-      >
-        {loading ? t('common.loading') : t('export.load_data')}
-      </Button>
+        <Button
+          variant="primary"
+          fullWidth
+          onClick={onLoadData}
+          disabled={loading || !hasSelection}
+        >
+          {loading ? t('common.loading') : t('export.load_data')}
+        </Button>
       </div>
     </div>
   );

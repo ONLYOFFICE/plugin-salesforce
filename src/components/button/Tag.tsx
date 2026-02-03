@@ -16,15 +16,15 @@ interface TagProps {
 export function Tag({ children, onRemove }: TagProps) {
   const { t } = useTranslation();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  
+
   useEffect(() => {
     const checkTheme = () => {
-      const body = document.body;
+      const { body } = document;
       setIsDarkTheme(
-        body.classList.contains('theme-dark') ||
-        body.classList.contains('theme-contrast-dark') ||
-        body.classList.contains('theme-night') ||
-        body.classList.contains('theme-type-dark')
+        body.classList.contains('theme-dark')
+        || body.classList.contains('theme-contrast-dark')
+        || body.classList.contains('theme-night')
+        || body.classList.contains('theme-type-dark'),
       );
     };
 
@@ -38,7 +38,7 @@ export function Tag({ children, onRemove }: TagProps) {
 
     return () => observer.disconnect();
   }, []);
-  
+
   return (
     <div className="tag">
       <span className="tag__label">{children}</span>

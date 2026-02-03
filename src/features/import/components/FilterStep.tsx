@@ -39,15 +39,15 @@ export function FilterStep({
 }: FilterStepProps) {
   const { t } = useTranslation();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  
+
   useEffect(() => {
     const checkTheme = () => {
-      const body = document.body;
+      const { body } = document;
       setIsDarkTheme(
-        body.classList.contains('theme-dark') ||
-        body.classList.contains('theme-contrast-dark') ||
-        body.classList.contains('theme-night') ||
-        body.classList.contains('theme-type-dark')
+        body.classList.contains('theme-dark')
+        || body.classList.contains('theme-contrast-dark')
+        || body.classList.contains('theme-night')
+        || body.classList.contains('theme-type-dark'),
       );
     };
 
@@ -61,7 +61,7 @@ export function FilterStep({
 
     return () => observer.disconnect();
   }, []);
-  
+
   const OPERATORS = useMemo(() => [
     { value: 'Equals', label: t('filters.operators.equals') },
     { value: 'Not Equals', label: t('filters.operators.not_equals') },

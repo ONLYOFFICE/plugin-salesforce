@@ -207,17 +207,14 @@ export function readSheetData(): Promise<SheetData> {
       return { data, rowCount, colCount };
     },
   ).then((result) => {
-    if (result.data.length < 2)
-      throw new SpreadsheetError('Selection must include headers and at least one data row', 'INSUFFICIENT_DATA');
+    if (result.data.length < 2) throw new SpreadsheetError('Selection must include headers and at least one data row', 'INSUFFICIENT_DATA');
 
     const headers = result.data[0]?.map((h) => String(h ?? '')) ?? [];
     const rows = result.data.slice(1);
-    if (headers.every((h) => !h || h.trim() === ''))
-      throw new SpreadsheetError('Selection must include at least one non-empty header', 'EMPTY_HEADERS');
+    if (headers.every((h) => !h || h.trim() === '')) throw new SpreadsheetError('Selection must include at least one non-empty header', 'EMPTY_HEADERS');
 
     const hasDataRow = rows.some((row) => row.some((cell) => cell !== null && cell !== ''));
-    if (!hasDataRow)
-      throw new SpreadsheetError('Selection must include at least one row with data', 'EMPTY_ROWS');
+    if (!hasDataRow) throw new SpreadsheetError('Selection must include at least one row with data', 'EMPTY_ROWS');
 
     return {
       headers,

@@ -40,8 +40,7 @@ export function Main() {
   if (!isReady) {
     return (
       <div className="main-page page-enter">
-        <div className="main-page__content">
-        </div>
+        <div className="main-page__content" />
       </div>
     );
   }

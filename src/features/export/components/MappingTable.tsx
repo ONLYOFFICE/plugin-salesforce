@@ -10,7 +10,7 @@ interface MappingTableProps {
 
 export function MappingTable({ children }: MappingTableProps) {
   const { t } = useTranslation();
-  
+
   return (
     <div className="mapping-step__table">
       <div className="mapping-step__table-header">

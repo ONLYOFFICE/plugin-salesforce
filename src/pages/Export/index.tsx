@@ -53,7 +53,7 @@ export function Export() {
         header={<Header title="" onBack={() => route('/')} />}
         footer={<Footer onConfigure={() => route('/settings')} />}
       >
-        <></>
+        {null}
       </Layout>
     );
   }
@@ -113,26 +113,29 @@ export function Export() {
       case 'loading':
         return <LoadingIndicator message={t('export.exporting')} />;
 
-      case 'success':
+      case 'success': {
+        let message: string;
+        if (result?.success) {
+          message = t('export.export_completed_success_single');
+        } else if (result?.successCount === 0) {
+          message = t('export.export_with_errors_alt', {
+            failed: result?.errorCount ?? 0,
+          });
+        } else {
+          message = t('export.export_with_errors', {
+            success: result?.successCount ?? 0,
+            failed: result?.errorCount ?? 0,
+          });
+        }
         return (
           <SuccessMessage
-            message={
-              result?.success
-                ? t('export.export_completed_success_single')
-                : (result?.successCount === 0
-                    ? t('export.export_with_errors_alt', {
-                        failed: result?.errorCount ?? 0,
-                      })
-                    : t('export.export_with_errors', {
-                        success: result?.successCount ?? 0,
-                        failed: result?.errorCount ?? 0,
-                      }))
-            }
+            message={message}
             actions={[
               { label: t('export.export_more'), onClick: reset },
             ]}
           />
         );
+      }
 
       default:
         return null;

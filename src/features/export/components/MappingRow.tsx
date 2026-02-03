@@ -23,7 +23,7 @@ export function MappingRow({
   onChange,
 }: MappingRowProps) {
   const { t } = useTranslation();
-  
+
   const isMapped = Boolean(targetField);
   const rowClass = `mapping-step__row ${isMapped ? 'mapping-step__row--mapped' : ''}`;
 

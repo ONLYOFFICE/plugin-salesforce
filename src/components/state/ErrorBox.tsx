@@ -14,7 +14,7 @@ export function ErrorBox({
   message,
 }: ErrorBoxProps) {
   const { t } = useTranslation();
-  
+
   const displayTitle = title || t('common.error');
   const displayMessage = message || t('errors.check_data_and_retry');
 

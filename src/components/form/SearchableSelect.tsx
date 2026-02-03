@@ -33,7 +33,7 @@ export function SearchableSelect<T extends SelectOption>({
   loading = false,
 }: SearchableSelectProps<T>) {
   const { t } = useTranslation();
-  
+
   const inputClass = loading ? 'combobox__input combobox__input--disabled' : 'combobox__input';
 
   const placeholderText = placeholder || t('common.enter_or_select');

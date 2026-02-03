@@ -32,7 +32,7 @@ export function ObjectStep({
   onSOQL,
 }: ObjectStepProps) {
   const { t } = useTranslation();
-  
+
   const objectOptions = useMemo(
     () => objects.map((obj) => ({
       value: obj.name,

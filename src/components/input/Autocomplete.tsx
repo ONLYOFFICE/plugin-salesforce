@@ -32,9 +32,9 @@ export function Autocomplete({
   onFocus,
 }: AutocompleteProps) {
   const { t } = useTranslation();
-  
+
   const placeholderText = placeholder || t('common.search');
-  
+
   const [search, setSearch] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

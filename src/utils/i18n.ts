@@ -11,7 +11,7 @@ async function loadSupportedLanguages(): Promise<void> {
   try {
     const response = await fetch(`${TRANSLATIONS_BASE_PATH}/langs.json`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
+
     supportedLanguages = await response.json();
   } catch (error) {
     console.error('Failed to load langs.json:', error);
@@ -23,7 +23,7 @@ export async function loadTranslations(lang: string): Promise<void> {
   try {
     const response = await fetch(`${TRANSLATIONS_BASE_PATH}/${lang}.json`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
+
     translations = await response.json();
     currentLanguage = lang;
   } catch (error) {
@@ -64,14 +64,12 @@ export function getCurrentLanguage(): string {
 
 function normalizeLanguageCode(lang: string): string {
   if (!lang) return DEFAULT_LANGUAGE;
-  
+
   const normalized = lang.toLowerCase().trim();
   const base = normalized.split('-')[0];
-  
-  const match = supportedLanguages.find((supported) => 
-    supported.toLowerCase().startsWith(base)
-  );
-  
+
+  const match = supportedLanguages.find((supported) => supported.toLowerCase().startsWith(base));
+
   return match || DEFAULT_LANGUAGE;
 }
 
@@ -80,12 +78,12 @@ function detectLanguageSource(): string {
   if (editorLang && editorLang !== 'en-EN') {
     return editorLang;
   }
-  
+
   const htmlLang = document.documentElement.lang;
   if (htmlLang && htmlLang !== 'en') {
     return htmlLang;
   }
-  
+
   return navigator.language || navigator.languages?.[0] || DEFAULT_LANGUAGE;
 }
 
@@ -98,7 +96,9 @@ export function detectLanguage(): string {
 async function waitForPlugin(maxAttempts: number, delay: number): Promise<boolean> {
   for (let i = 0; i < maxAttempts; i++) {
     if (window.Asc?.plugin?.info) return true;
-    await new Promise((resolve) => setTimeout(resolve, delay));
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), delay);
+    });
   }
   return false;
 }

@@ -32,7 +32,7 @@ interface FilterFormProps {
 
 export function FilterForm({ fields, onAdd }: FilterFormProps) {
   const { t } = useTranslation();
-  
+
   const [field, setField] = useState('');
   const [operator, setOperator] = useState('Equals');
   const [value, setValue] = useState('');

@@ -23,9 +23,9 @@ export function Dropdown<T extends DropdownOption>({
   placeholder,
 }: DropdownProps<T>) {
   const { t } = useTranslation();
-  
+
   const placeholderText = placeholder || t('common.select');
-  
+
   if (loading) {
     return <div>{t('common.loading')}</div>;
   }

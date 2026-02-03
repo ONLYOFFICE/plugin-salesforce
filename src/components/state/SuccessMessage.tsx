@@ -19,9 +19,9 @@ export function SuccessMessage({
   actions,
 }: SuccessMessageProps) {
   const { t } = useTranslation();
-  
+
   const displayMessage = message || t('common.success');
-  
+
   return (
     <div className="success-state">
       <p className="success-state__title">{displayMessage}</p>

@@ -32,12 +32,12 @@ export function Select({
 
   useEffect(() => {
     const checkTheme = () => {
-      const body = document.body;
+      const { body } = document;
       setIsDarkTheme(
-        body.classList.contains('theme-dark') ||
-        body.classList.contains('theme-contrast-dark') ||
-        body.classList.contains('theme-night') ||
-        body.classList.contains('theme-type-dark')
+        body.classList.contains('theme-dark')
+        || body.classList.contains('theme-contrast-dark')
+        || body.classList.contains('theme-night')
+        || body.classList.contains('theme-type-dark'),
       );
     };
 

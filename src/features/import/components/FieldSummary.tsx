@@ -23,15 +23,15 @@ export function FieldSummary({
 }: FieldSummaryProps) {
   const { t } = useTranslation();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  
+
   useEffect(() => {
     const checkTheme = () => {
-      const body = document.body;
+      const { body } = document;
       setIsDarkTheme(
-        body.classList.contains('theme-dark') ||
-        body.classList.contains('theme-contrast-dark') ||
-        body.classList.contains('theme-night') ||
-        body.classList.contains('theme-type-dark')
+        body.classList.contains('theme-dark')
+        || body.classList.contains('theme-contrast-dark')
+        || body.classList.contains('theme-night')
+        || body.classList.contains('theme-type-dark'),
       );
     };
 
@@ -45,7 +45,7 @@ export function FieldSummary({
 
     return () => observer.disconnect();
   }, []);
-  
+
   const getObjectLabel = (name: string) => {
     const obj = objects.find((o) => o.name === name);
     return obj?.label || name;

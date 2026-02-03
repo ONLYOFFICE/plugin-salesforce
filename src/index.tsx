@@ -32,7 +32,7 @@ function PluginReadyGuard({ children }: { children: preact.ComponentChildren }) 
   const { route } = useLocation();
   const { ready, error } = usePluginReady();
   const { t, isReady: translationsReady } = useTranslation();
-  
+
   useTheme();
 
   if (error) {
@@ -52,8 +52,8 @@ function PluginReadyGuard({ children }: { children: preact.ComponentChildren }) 
   }
 
   if (!ready) {
-    const message = translationsReady 
-      ? t('common.initializing_plugin') 
+    const message = translationsReady
+      ? t('common.initializing_plugin')
       : 'Initializing plugin...';
     return (
       <Layout

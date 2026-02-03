@@ -36,7 +36,7 @@ export function FilterRow({
   operators = DEFAULT_OPERATORS,
 }: FilterRowProps) {
   const { t } = useTranslation();
-  
+
   const fieldOptions = fields.map((f) => ({ value: f, label: f }));
 
   return (

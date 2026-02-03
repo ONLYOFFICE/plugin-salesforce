@@ -58,9 +58,9 @@ export function MultiSelect({
   onSelectAll,
 }: MultiSelectProps) {
   const { t } = useTranslation();
-  
+
   const placeholderText = placeholder || t('common.search');
-  
+
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

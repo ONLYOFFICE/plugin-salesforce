@@ -33,7 +33,7 @@ export function ObjectStep({
   const { t } = useTranslation();
   const [selectedObject, setSelectedObject] = useState<string>('');
   const [selectedLabel, setSelectedLabel] = useState<string>('');
-  
+
   useEffect(() => {
     if (objects.length === 0 && !loading) onLoadObjects();
   }, [objects.length, loading, onLoadObjects]);
@@ -65,7 +65,7 @@ export function ObjectStep({
   return (
     <div className="object-step">
       <SheetSummary sheetData={sheetData} />
-      
+
       <div className="object-step__divider" />
 
       <section className="object-step__section">

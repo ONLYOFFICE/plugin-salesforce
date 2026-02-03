@@ -47,7 +47,7 @@ export function MappingStep({
   onSubmit,
 }: MappingStepProps) {
   const { t } = useTranslation();
-  
+
   const isUpdate = operation === 'update';
 
   const fieldOptions = useMemo(() => [
@@ -68,7 +68,10 @@ export function MappingStep({
   return (
     <div className="mapping-step">
       <div className="mapping-step__target-object">
-        <span className="mapping-step__target-label">{t('export.target_object')}:</span>
+        <span className="mapping-step__target-label">
+          {t('export.target_object')}
+          :
+        </span>
         <span className="mapping-step__target-value">{objectName}</span>
       </div>
 
@@ -99,7 +102,11 @@ export function MappingStep({
 
       <footer className="mapping-step__footer">
         <Button variant="primary" fullWidth onClick={onSubmit} disabled={submitDisabled}>
-          {t('export.export')} ({rowCount})
+          {t('export.export')}
+          {' '}
+          (
+          {rowCount}
+          )
         </Button>
       </footer>
     </div>

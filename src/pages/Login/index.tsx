@@ -40,8 +40,7 @@ export function Login() {
   if (!isReady) {
     return (
       <div className="login-page page-enter">
-        <div className="login-page__content">
-        </div>
+        <div className="login-page__content" />
       </div>
     );
   }
@@ -54,7 +53,10 @@ export function Login() {
         </div>
 
         <div className="login-page__label-spacing">
-          <Label>{t('auth.environment')}:</Label>
+          <Label>
+            {t('auth.environment')}
+            :
+          </Label>
         </div>
         <div className="login-page__spacing">
           <Select

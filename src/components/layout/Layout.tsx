@@ -15,14 +15,15 @@ export function Layout({
   header, footer, children, error,
 }: LayoutProps) {
   const { t } = useTranslation();
-  
+
   return (
     <div className="layout">
       {header}
       <div className="layout__main">
         {error && (
         <div className="layout__error">
-          {t('common.error')}:
+          {t('common.error')}
+          :
           {error}
         </div>
         )}

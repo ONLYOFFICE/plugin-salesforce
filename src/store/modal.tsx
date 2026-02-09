@@ -26,7 +26,7 @@ import { t } from '@utils/i18n';
 
 export type ModalComponent = ComponentType<{ params: URLSearchParams }>;
 
-const BASE_URL = import.meta.env.VITE_MODAL_BASE_URL;
+const BASE_URL = `${window.location.origin}${window.location.pathname}`;
 const PLUGIN_BUTTON_EVENT = 'plugin:button';
 const SOQL_KEYS = {
   query: '__soql_editor_query__',

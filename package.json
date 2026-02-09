@@ -1,12 +1,27 @@
 {
+	"name": "onlyoffice-salesforce-plugin",
+	"version": "1.0.0",
+	"description": "ONLYOFFICE plugin for Salesforce integration",
+	"author": "Ascensio System SIA",
+	"license": "Apache-2.0",
 	"private": true,
 	"type": "module",
+	"keywords": [
+		"onlyoffice",
+		"salesforce",
+		"plugin",
+		"crm",
+		"integration",
+		"spreadsheet"
+	],
 	"scripts": {
 		"lint": "eslint src/",
 		"lint:fix": "eslint src/ --fix",
 		"dev": "vite",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"package": "npm run build && cd dist && zip -r ../salesforce-plugin.zip . && cd ..",
+		"clean": "rm -rf dist salesforce-plugin.zip"
 	},
 	"dependencies": {
 		"@preact/signals": "^2.5.1",

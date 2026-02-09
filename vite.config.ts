@@ -24,8 +24,6 @@ import { fileURLToPath, URL } from "node:url";
 const REQUIRED_ENV_VARS = [
   "VITE_CLIENT_ID",
   "VITE_REDIRECT_URI",
-  "VITE_MODAL_BASE_URL",
-  "VITE_TRANSLATIONS_PATH",
 ];
 
 export default defineConfig(({ mode }) => {

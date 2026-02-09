@@ -19,7 +19,7 @@
 type Translations = Record<string, Record<string, string> | string>;
 
 const DEFAULT_LANGUAGE = 'en-US';
-const TRANSLATIONS_BASE_PATH = import.meta.env.VITE_TRANSLATIONS_PATH;
+const TRANSLATIONS_BASE_PATH = './translations';
 
 let supportedLanguages: string[] = [DEFAULT_LANGUAGE];
 let currentLanguage = DEFAULT_LANGUAGE;

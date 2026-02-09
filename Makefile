@@ -17,8 +17,6 @@ help:
 	@echo "Required environment variables:"
 	@echo "  VITE_CLIENT_ID               - Salesforce OAuth Client ID"
 	@echo "  VITE_REDIRECT_URI            - OAuth callback URL"
-	@echo "  VITE_MODAL_BASE_URL          - Modal base URL"
-	@echo "  VITE_TRANSLATIONS_PATH       - Translations directory path"
 
 install:
 	@echo "Installing dependencies..."
@@ -33,14 +31,6 @@ build:
 	fi
 	@if [ -z "$(VITE_REDIRECT_URI)" ]; then \
 		echo "Error: VITE_REDIRECT_URI environment variable is not set"; \
-		exit 1; \
-	fi
-	@if [ -z "$(VITE_MODAL_BASE_URL)" ]; then \
-		echo "Error: VITE_MODAL_BASE_URL environment variable is not set"; \
-		exit 1; \
-	fi
-	@if [ -z "$(VITE_TRANSLATIONS_PATH)" ]; then \
-		echo "Error: VITE_TRANSLATIONS_PATH environment variable is not set"; \
 		exit 1; \
 	fi
 	@npm run build

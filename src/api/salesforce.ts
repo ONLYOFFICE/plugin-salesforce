@@ -323,16 +323,6 @@ export async function fetchReports(
   }
 
   const whereClauses: string[] = [];
-  let scopeClause = '';
-
-  if (options?.filters?.privateFolderOnly) {
-    scopeClause = ' USING SCOPE allPrivate';
-  } else if (options?.filters?.myReportsOnly) {
-    scopeClause = ' USING SCOPE mine';
-  } else {
-    scopeClause = ' USING SCOPE organizationOwned';
-  }
-
   if (options?.searchTerm) {
     const escaped = options.searchTerm.replace(/'/g, "\\'");
     whereClauses.push(`Name LIKE '%${escaped}%'`);
@@ -342,30 +332,50 @@ export async function fetchReports(
     ? ` WHERE ${whereClauses.join(' AND ')}`
     : '';
 
-  const query = `SELECT Id, Name, DeveloperName, OwnerId, LastModifiedDate, FolderName FROM Report${scopeClause}${whereClause} ORDER BY Name ASC`;
+  const fetchReportsWithScope = async (scope: string): Promise<Record<string, unknown>[]> => {
+    const query = `SELECT Id, Name, DeveloperName, OwnerId, LastModifiedDate, FolderName FROM Report USING SCOPE ${scope}${whereClause} ORDER BY Name ASC`;
+    const result = await client<QueryResponse>(
+      `query?q=${encodeURIComponent(query)}`,
+      { signal: options?.signal },
+    );
 
-  const result = await client<QueryResponse>(
-    `query?q=${encodeURIComponent(query)}`,
-    { signal: options?.signal },
-  );
-
-  if (result.error || !result.data) {
-    if (result.error) {
-      return { error: result.error };
+    if (result.error || !result.data) {
+      return [];
     }
-    return { error: { message: 'No data received' } };
+
+    try {
+      return await fetchAllQueryPages(instanceUrl, accessToken, result.data, options?.signal);
+    } catch {
+      return [];
+    }
+  };
+
+  let allRecords: Record<string, unknown>[] = [];
+
+  if (options?.filters?.privateFolderOnly) {
+    allRecords = await fetchReportsWithScope('allPrivate');
+  } else if (options?.filters?.myReportsOnly) {
+    allRecords = await fetchReportsWithScope('mine');
+  } else {
+    const [organizationOwnedReports, mineReports, allPrivateReports] = await Promise.all([
+      fetchReportsWithScope('organizationOwned'),
+      fetchReportsWithScope('mine'),
+      fetchReportsWithScope('allPrivate'),
+    ]);
+
+    const reportMap = new Map<string, Record<string, unknown>>();
+    [...organizationOwnedReports, ...mineReports, ...allPrivateReports].forEach((record) => {
+      const id = record.Id as string;
+      if (id && !reportMap.has(id)) {
+        reportMap.set(id, record);
+      }
+    });
+
+    allRecords = Array.from(reportMap.values());
   }
 
-  let allRecords: Record<string, unknown>[];
-  try {
-    allRecords = await fetchAllQueryPages(
-      instanceUrl,
-      accessToken,
-      result.data,
-      options?.signal,
-    );
-  } catch (err) {
-    return { error: { message: (err as Error).message, status: 500 } };
+  if (allRecords.length === 0) {
+    return { data: [] };
   }
 
   const isPrivate = options?.filters?.privateFolderOnly ?? false;

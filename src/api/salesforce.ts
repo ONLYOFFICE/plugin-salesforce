@@ -191,7 +191,6 @@ export interface SalesforceReport {
   ownerId?: string;
   folderName?: string;
   isPrivate?: boolean;
-  lastRunDate?: string;
   lastViewedDate?: string;
 }
 
@@ -201,7 +200,6 @@ export interface ReportFilters {
   source?: ReportSource;
   myReportsOnly?: boolean;
   privateFolderOnly?: boolean;
-  groupResults?: boolean;
 }
 
 export interface ReportResults {
@@ -230,6 +228,79 @@ export interface ReportResults {
 export interface FetchReportsOptions extends RequestOptions {
   filters?: ReportFilters;
   userId?: string;
+  searchTerm?: string;
+}
+
+function mapReportRecord(
+  record: Record<string, unknown>,
+  version = 'v59.0',
+  isPrivate = false,
+): SalesforceReport {
+  return {
+    id: record.Id as string,
+    name: record.Name as string,
+    ownerId: record.OwnerId as string,
+    folderName: record.FolderName as string | undefined,
+    isPrivate: isPrivate ? true : undefined,
+    lastViewedDate: record.LastModifiedDate as string | undefined,
+    describeUrl: `/services/data/${version}/analytics/reports/${record.Id}/describe`,
+    instancesUrl: `/services/data/${version}/analytics/reports/${record.Id}/instances`,
+  };
+}
+
+async function fetchAllQueryPages(
+  instanceUrl: string,
+  accessToken: string,
+  initialData: QueryResponse,
+  signal?: AbortSignal,
+): Promise<Record<string, unknown>[]> {
+  const allRecords = [...initialData.records];
+  let done = initialData.done;
+  let nextRecordsUrl = initialData.nextRecordsUrl;
+
+  while (!done && nextRecordsUrl) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await httpRequest<QueryResponse>(
+      `${instanceUrl}${nextRecordsUrl}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        timeout: DEFAULT_TIMEOUT,
+        signal,
+      },
+    );
+
+    if (result.error) throw new Error(result.error.message);
+    if (!result.data) throw new Error('No data received');
+
+    allRecords.push(...result.data.records);
+    done = result.data.done;
+    nextRecordsUrl = result.data.nextRecordsUrl;
+  }
+
+  return allRecords;
+}
+
+function applyClientSideFilters(
+  reports: SalesforceReport[],
+  options?: FetchReportsOptions,
+): SalesforceReport[] {
+  let filtered = reports;
+
+  if (options?.searchTerm) {
+    const term = options.searchTerm.toLowerCase();
+    filtered = filtered.filter((r) => r.name.toLowerCase().includes(term));
+  }
+
+  if (options?.filters?.myReportsOnly) {
+    if (options.userId)
+      filtered = filtered.filter((r) => r.ownerId === options.userId);
+  }
+
+  if (options?.filters?.privateFolderOnly) {
+    filtered = filtered.filter((r) => r.isPrivate === true);
+  }
+
+  return filtered;
 }
 
 export async function fetchReports(
@@ -238,24 +309,69 @@ export async function fetchReports(
   options?: FetchReportsOptions,
 ): Promise<HttpResponse<SalesforceReport[]>> {
   const client = createSalesforceClient({ instanceUrl, accessToken, version: 'v59.0' });
+  const source = options?.filters?.source ?? 'all';
 
-  const endpoint = options?.filters?.source === 'recent'
-    ? 'analytics/reports?recentlyViewed=true'
-    : 'analytics/reports';
+  if (source === 'recent') {
+    const result = await client<SalesforceReport[]>(
+      'analytics/reports?recentlyViewed=true',
+      { signal: options?.signal },
+    );
 
-  const result = await client<SalesforceReport[]>(endpoint, { signal: options?.signal });
+    if (result.error || !result.data) return result;
 
-  if (result.error || !result.data) return result;
-
-  let reports = result.data;
-
-  if (options?.filters) {
-    const { myReportsOnly, privateFolderOnly } = options.filters;
-
-    if (myReportsOnly && options.userId) reports = reports.filter((r) => r.ownerId === options.userId);
-
-    if (privateFolderOnly) reports = reports.filter((r) => r.isPrivate === true);
+    return { data: applyClientSideFilters(result.data, options) };
   }
+
+  const whereClauses: string[] = [];
+  let scopeClause = '';
+
+  if (options?.filters?.privateFolderOnly) {
+    scopeClause = ' USING SCOPE allPrivate';
+  } else if (options?.filters?.myReportsOnly) {
+    scopeClause = ' USING SCOPE mine';
+  } else {
+    scopeClause = ' USING SCOPE organizationOwned';
+  }
+
+  if (options?.searchTerm) {
+    const escaped = options.searchTerm.replace(/'/g, "\\'");
+    whereClauses.push(`Name LIKE '%${escaped}%'`);
+  }
+
+  const whereClause = whereClauses.length > 0
+    ? ` WHERE ${whereClauses.join(' AND ')}`
+    : '';
+
+  const query = `SELECT Id, Name, DeveloperName, OwnerId, LastModifiedDate, FolderName FROM Report${scopeClause}${whereClause} ORDER BY Name ASC`;
+
+  const result = await client<QueryResponse>(
+    `query?q=${encodeURIComponent(query)}`,
+    { signal: options?.signal },
+  );
+
+  if (result.error || !result.data) {
+    if (result.error) {
+      return { error: result.error };
+    }
+    return { error: { message: 'No data received' } };
+  }
+
+  let allRecords: Record<string, unknown>[];
+  try {
+    allRecords = await fetchAllQueryPages(
+      instanceUrl,
+      accessToken,
+      result.data,
+      options?.signal,
+    );
+  } catch (err) {
+    return { error: { message: (err as Error).message, status: 500 } };
+  }
+
+  const isPrivate = options?.filters?.privateFolderOnly ?? false;
+  const reports = allRecords.map((r) =>
+    mapReportRecord(r, 'v59.0', isPrivate),
+  );
 
   return { data: reports };
 }

@@ -57,9 +57,13 @@ export function Tag({ children, onRemove }: TagProps) {
     return () => observer.disconnect();
   }, []);
 
+  const labelText = typeof children === 'string' ? children : '';
+
   return (
     <div className="tag">
-      <span className="tag__label">{children}</span>
+      <span className="tag__label" title={labelText}>
+        {children}
+      </span>
       <button
         type="button"
         className="tag__remove"

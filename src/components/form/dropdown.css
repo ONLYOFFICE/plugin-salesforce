@@ -120,6 +120,17 @@ body.theme-contrast-dark.theme-type-dark .dropdown__item--checkbox input[type="c
 	color: var(--color-text-muted);
 }
 
+.dropdown__empty {
+	padding: 6px 8px;
+
+	font-family: var(--font-family);
+	font-size: var(--font-size-sm);
+	font-style: italic;
+
+	color: var(--color-text-muted);
+	text-align: center;
+}
+
 .dropdown__marker {
 	width: 14px;
 	height: 14px;

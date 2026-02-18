@@ -206,6 +206,7 @@ export interface ReportFilters {
   source?: ReportSource;
   myReportsOnly?: boolean;
   privateFolderOnly?: boolean;
+  groupResults?: boolean;
 }
 
 export interface ReportResults {

@@ -27,14 +27,28 @@ interface OptionListProps<T extends SelectOption> {
   options: T[];
   selectedId: string | null;
   onSelect: (option: T) => void;
+  emptyMessage?: string;
+  showEmpty?: boolean;
 }
 
 export function OptionList<T extends SelectOption>({
   options,
   selectedId,
   onSelect,
+  emptyMessage,
+  showEmpty = false,
 }: OptionListProps<T>) {
-  if (options.length === 0) return null;
+  if (options.length === 0) {
+    if (showEmpty && emptyMessage) {
+      return (
+        <div className="dropdown__list">
+          <div className="dropdown__empty">{emptyMessage}</div>
+        </div>
+      );
+    }
+
+    return null;
+  }
 
   return (
     <div className="dropdown__list">

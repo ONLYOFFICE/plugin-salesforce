@@ -35,6 +35,7 @@ interface SearchableSelectProps<T extends SelectOption> {
   onBlur: () => void;
   placeholder?: string;
   loading?: boolean;
+  emptyMessage?: string;
 }
 
 export function SearchableSelect<T extends SelectOption>({
@@ -49,6 +50,7 @@ export function SearchableSelect<T extends SelectOption>({
   onBlur,
   placeholder,
   loading = false,
+  emptyMessage,
 }: SearchableSelectProps<T>) {
   const { t } = useTranslation();
 
@@ -77,6 +79,8 @@ export function SearchableSelect<T extends SelectOption>({
           options={options}
           selectedId={selectedOption?.id ?? null}
           onSelect={onSelect}
+          emptyMessage={emptyMessage}
+          showEmpty={true}
         />
         )}
       </div>

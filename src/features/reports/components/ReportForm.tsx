@@ -89,6 +89,11 @@ export function ReportForm({
     onFiltersChange({ ...filters, [key]: target.checked });
   };
 
+  const emptyMessage = useMemo(() => {
+    if (loading) return undefined;
+    return reports.length === 0 ? t('reports.no_reports_available') : undefined;
+  }, [loading, reports.length, t]);
+
   return (
     <div>
       <SearchableSelect
@@ -103,6 +108,7 @@ export function ReportForm({
         onFocus={onFocus}
         onBlur={onBlur}
         loading={loading}
+        emptyMessage={emptyMessage}
       />
 
       <FilterToggle expanded={showFilters} onToggle={onShowFiltersChange}>

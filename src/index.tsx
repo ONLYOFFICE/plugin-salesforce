@@ -60,8 +60,8 @@ function PluginReadyGuard({ children }: { children: preact.ComponentChildren }) 
         footer={<Footer onConfigure={() => route('/settings')} />}
       >
         <ErrorBox title={t('common.error')} message={error} />
-        <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'center' }}>
-          <Button variant="primary" onClick={() => window.location.reload()}>
+        <div style={{ marginTop: '16px' }}>
+          <Button variant="primary" fullWidth onClick={() => window.location.reload()}>
             {t('common.reload')}
           </Button>
         </div>

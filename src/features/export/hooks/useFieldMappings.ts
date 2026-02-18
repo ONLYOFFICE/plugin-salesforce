@@ -26,7 +26,7 @@ export function useFieldMappings() {
   const [idColumn, setIdColumn] = useState('');
 
   const initialize = useCallback((headers: string[]) => {
-    setMappings(headers.map((header) => ({ sourceColumn: header, targetField: '' })));
+    setMappings(headers.filter((header) => header !== '').map((header) => ({ sourceColumn: header, targetField: '' })));
   }, []);
 
   const update = useCallback((sourceColumn: string, targetField: string) => {

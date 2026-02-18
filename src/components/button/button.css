@@ -24,7 +24,7 @@
 	box-sizing: border-box;
 
 	border: none;
-	border-radius: 1px;
+	border-radius: var(--border-radius-button, 1px);
 
 	font-family: var(--font-family);
 	font-size: var(--font-size-md);

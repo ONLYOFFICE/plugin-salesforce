@@ -372,4 +372,6 @@ body.theme-night.theme-type-dark {
 	--font-size-md: 12px;
 	--line-height-sm: 16px;
 	--line-height-md: 18px;
+	--border-radius-button: 4px;
+	--border-radius-input: 4px;
 }

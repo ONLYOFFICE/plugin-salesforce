@@ -39,7 +39,7 @@
 	text-align: left;
 
 	border: 1px solid var(--color-border);
-	border-radius: var(--radius-sm);
+	border-radius: var(--border-radius-input, var(--radius-sm));
 
 	color: var(--color-text);
 	background-color: var(--color-bg);
@@ -102,7 +102,7 @@ body.theme-contrast-dark.theme-type-dark .select:focus {
 	overflow-y: auto;
 
 	border: 1px solid var(--color-border);
-	border-radius: var(--radius-sm);
+	border-radius: var(--border-radius-input, var(--radius-sm));
 	box-shadow: var(--shadow-dropdown);
 
 	background-color: var(--color-bg);

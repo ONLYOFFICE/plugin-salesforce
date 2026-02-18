@@ -25,6 +25,7 @@ body {
 
 body {
 	background-color: var(--color-bg) !important;
+	font-family: var(--font-family) !important;
 }
 
 body.theme-light,
@@ -361,4 +362,14 @@ body.theme-contrast-dark.theme-type-dark {
 	--connection-selector-border-error: #F62211;
 	--connection-selector-bg-disabled: #2A2A2A;
 	--connection-selector-border-disabled: #696969;
+}
+
+body.theme-white.theme-type-light,
+body.theme-modern.theme-type-light,
+body.theme-modern.theme-type-dark,
+body.theme-night.theme-type-dark {
+	--font-size-sm: 12px;
+	--font-size-md: 12px;
+	--line-height-sm: 16px;
+	--line-height-md: 18px;
 }

@@ -33,6 +33,8 @@ import {
   createRecordsBatch, updateRecordsBatch, type ExportResult, type SalesforceField,
 } from '@api/salesforce';
 
+const EXPORT_TIMEOUT = 60000;
+
 function normalizeValue(value: unknown): unknown {
   if (value == null || value === '') return null;
 
@@ -151,8 +153,8 @@ export function useExport() {
     const updateRecords = records as { id: string; data: Record<string, unknown> }[];
     const createRecords = records as Record<string, unknown>[];
     const res = mapping.operation === 'update'
-      ? await updateRecordsBatch(instance_url, access_token, salesforce.selectedObject, updateRecords)
-      : await createRecordsBatch(instance_url, access_token, salesforce.selectedObject, createRecords);
+      ? await updateRecordsBatch(instance_url, access_token, salesforce.selectedObject, updateRecords, { timeout: EXPORT_TIMEOUT })
+      : await createRecordsBatch(instance_url, access_token, salesforce.selectedObject, createRecords, { timeout: EXPORT_TIMEOUT });
 
     if (res.error) {
       console.error('Export failed:', res.error);

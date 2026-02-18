@@ -96,6 +96,7 @@ export interface PaginatedQueryResponse {
 
 export interface RequestOptions {
   signal?: AbortSignal;
+  timeout?: number;
 }
 
 export function fetchObjects(
@@ -103,11 +104,12 @@ export function fetchObjects(
   accessToken: string,
   options?: RequestOptions,
 ): Promise<HttpResponse<SObjectsResponse>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
     version: 'v59.0',
-  })<SObjectsResponse>('sobjects', { signal: options?.signal });
+  })<SObjectsResponse>('sobjects', { signal: options?.signal, timeout });
 }
 
 export function describeObject(
@@ -116,11 +118,12 @@ export function describeObject(
   objectName: string,
   options?: RequestOptions,
 ): Promise<HttpResponse<DescribeResponse>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
     version: 'v59.0',
-  })<DescribeResponse>(`sobjects/${objectName}/describe`, { signal: options?.signal });
+  })<DescribeResponse>(`sobjects/${objectName}/describe`, { signal: options?.signal, timeout });
 }
 
 function createPaginatedResponse(
@@ -128,6 +131,7 @@ function createPaginatedResponse(
   accessToken: string,
   data: QueryResponse,
   signal?: AbortSignal,
+  timeout?: number,
 ): PaginatedQueryResponse {
   const {
     records, totalSize, done, nextRecordsUrl,
@@ -144,7 +148,7 @@ function createPaginatedResponse(
             `${instanceUrl}${nextRecordsUrl}`,
             {
               headers: { Authorization: `Bearer ${accessToken}` },
-              timeout: DEFAULT_TIMEOUT,
+              timeout: timeout ?? DEFAULT_TIMEOUT,
               signal,
             },
           );
@@ -158,6 +162,7 @@ function createPaginatedResponse(
             accessToken,
             result.data,
             signal,
+            timeout,
           );
         }
         : null,
@@ -170,16 +175,17 @@ export async function executeQuery(
   query: string,
   options?: RequestOptions,
 ): Promise<HttpResponse<PaginatedQueryResponse>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   const result = await createSalesforceClient({
     instanceUrl,
     accessToken,
     version: 'v59.0',
-  })<QueryResponse>(`query?q=${encodeURIComponent(query)}`, { signal: options?.signal });
+  })<QueryResponse>(`query?q=${encodeURIComponent(query)}`, { signal: options?.signal, timeout });
 
   if (result.error || !result.data) return result as HttpResponse<PaginatedQueryResponse>;
 
   return {
-    data: createPaginatedResponse(instanceUrl, accessToken, result.data, options?.signal),
+    data: createPaginatedResponse(instanceUrl, accessToken, result.data, options?.signal, timeout),
   };
 }
 
@@ -253,6 +259,7 @@ async function fetchAllQueryPages(
   accessToken: string,
   initialData: QueryResponse,
   signal?: AbortSignal,
+  timeout?: number,
 ): Promise<Record<string, unknown>[]> {
   const allRecords = [...initialData.records];
   let done = initialData.done;
@@ -264,7 +271,7 @@ async function fetchAllQueryPages(
       `${instanceUrl}${nextRecordsUrl}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
-        timeout: DEFAULT_TIMEOUT,
+        timeout: timeout ?? DEFAULT_TIMEOUT,
         signal,
       },
     );
@@ -308,13 +315,14 @@ export async function fetchReports(
   accessToken: string,
   options?: FetchReportsOptions,
 ): Promise<HttpResponse<SalesforceReport[]>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   const client = createSalesforceClient({ instanceUrl, accessToken, version: 'v59.0' });
   const source = options?.filters?.source ?? 'all';
 
   if (source === 'recent') {
     const result = await client<SalesforceReport[]>(
       'analytics/reports?recentlyViewed=true',
-      { signal: options?.signal },
+      { signal: options?.signal, timeout },
     );
 
     if (result.error || !result.data) return result;
@@ -336,7 +344,7 @@ export async function fetchReports(
     const query = `SELECT Id, Name, DeveloperName, OwnerId, LastModifiedDate, FolderName FROM Report USING SCOPE ${scope}${whereClause} ORDER BY Name ASC`;
     const result = await client<QueryResponse>(
       `query?q=${encodeURIComponent(query)}`,
-      { signal: options?.signal },
+      { signal: options?.signal, timeout },
     );
 
     if (result.error || !result.data) {
@@ -344,7 +352,7 @@ export async function fetchReports(
     }
 
     try {
-      return await fetchAllQueryPages(instanceUrl, accessToken, result.data, options?.signal);
+      return await fetchAllQueryPages(instanceUrl, accessToken, result.data, options?.signal, timeout);
     } catch {
       return [];
     }
@@ -392,11 +400,12 @@ export function executeReport(
   reportId: string,
   options?: RequestOptions,
 ): Promise<HttpResponse<ReportResults>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
     version: 'v59.0',
-  })<ReportResults>(`analytics/reports/${reportId}`, { signal: options?.signal });
+  })<ReportResults>(`analytics/reports/${reportId}`, { signal: options?.signal, timeout });
 }
 
 export interface CreateRecordResponse {
@@ -434,6 +443,7 @@ export function createRecord(
   data: Record<string, unknown>,
   options?: RequestOptions,
 ): Promise<HttpResponse<CreateRecordResponse>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
@@ -442,6 +452,7 @@ export function createRecord(
     method: 'POST',
     body: data,
     signal: options?.signal,
+    timeout,
   });
 }
 
@@ -453,6 +464,7 @@ export function updateRecord(
   data: Record<string, unknown>,
   options?: RequestOptions,
 ): Promise<HttpResponse<void>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
@@ -461,6 +473,7 @@ export function updateRecord(
     method: 'PATCH',
     body: data,
     signal: options?.signal,
+    timeout,
   });
 }
 
@@ -473,6 +486,7 @@ export function upsertRecord(
   data: Record<string, unknown>,
   options?: RequestOptions,
 ): Promise<HttpResponse<CreateRecordResponse>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   return createSalesforceClient({
     instanceUrl,
     accessToken,
@@ -483,6 +497,7 @@ export function upsertRecord(
       method: 'PATCH',
       body: data,
       signal: options?.signal,
+      timeout,
     },
   );
 }
@@ -494,6 +509,7 @@ export async function createRecordsBatch(
   records: Record<string, unknown>[],
   options?: RequestOptions,
 ): Promise<HttpResponse<ExportResult>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   const client = createSalesforceClient({ instanceUrl, accessToken, version: 'v59.0' });
 
   const BATCH_SIZE = 25;
@@ -519,6 +535,7 @@ export async function createRecordsBatch(
       {
         method: 'POST',
         body: { compositeRequest },
+        timeout,
         signal: options?.signal,
       },
     );
@@ -561,6 +578,7 @@ export async function updateRecordsBatch(
   records: { id: string; data: Record<string, unknown> }[],
   options?: RequestOptions,
 ): Promise<HttpResponse<ExportResult>> {
+  const timeout = options?.timeout ?? DEFAULT_TIMEOUT;
   const client = createSalesforceClient({ instanceUrl, accessToken, version: 'v59.0' });
 
   const BATCH_SIZE = 25;
@@ -586,6 +604,7 @@ export async function updateRecordsBatch(
       {
         method: 'POST',
         body: { compositeRequest },
+        timeout,
         signal: options?.signal,
       },
     );

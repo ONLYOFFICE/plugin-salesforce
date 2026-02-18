@@ -39,9 +39,20 @@ function normalizeValue(value: unknown): unknown {
   if (value == null || value === '') return null;
 
   if (typeof value === 'string') {
-    const upper = value.toUpperCase().trim();
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+
+    const upper = trimmed.toUpperCase();
     if (upper === 'TRUE' || upper === '1' || upper === 'YES') return true;
     if (upper === 'FALSE' || upper === '0' || upper === 'NO') return false;
+
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (typeof parsed === 'object' && parsed !== null) {
+        return parsed;
+      }
+    } catch {
+    }
   }
 
   return value;
@@ -64,12 +75,7 @@ function buildRecord(
 
       let normalizedValue = normalizeValue(rawValue);
       if ((fieldType === 'boolean' || fieldType === 'Checkbox') && typeof normalizedValue !== 'boolean') {
-        if (typeof normalizedValue === 'string') {
-          const upper = normalizedValue.toUpperCase().trim();
-          normalizedValue = upper === 'TRUE' || upper === '1' || upper === 'YES';
-        } else {
-          normalizedValue = Boolean(normalizedValue);
-        }
+        normalizedValue = Boolean(normalizedValue);
       }
 
       record[targetField] = normalizedValue;

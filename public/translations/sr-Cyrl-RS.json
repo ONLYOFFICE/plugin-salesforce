@@ -91,7 +91,11 @@
 		"first_row_headers_desc": "The first row of your selection will be used as column headers for field mapping. SR-C",
 		"loading_data": "Loading data... SR-C",
 		"select_object": "Select Target Object SR-C",
+		"select_target_salesforce_object": "Select target Salesforce object SR-C",
 		"search_object": "Search object... SR-C",
+		"enter_or_select_object": "Enter or select object SR-C",
+		"target_object": "Target Object SR-C",
+		"mapping_instructions": "For each exported column, specify the corresponding location in Salesforce. SR-C",
 		"create": "Create SR-C",
 		"update": "Update SR-C",
 		"id_column": "ID Column SR-C",
@@ -114,7 +118,9 @@
 		"no_field_mappings": "No field mappings configured SR-C",
 		"failed_to_read_data": "Failed to read spreadsheet data SR-C",
 		"export_with_errors": "Export completed with errors. {{success}} succeeded, {{failed}} failed. SR-C",
+		"export_with_errors_alt": "Export completed with errors. {{failed}} failed. SR-C",
 		"export_completed_success": "Export completed! {{count}} records created. SR-C",
+		"export_completed_success_single": "Data export completed successfully! The record has been created. SR-C",
 		"export_more": "Export More SR-C"
 	},
 	"reports": {
@@ -135,7 +141,8 @@
 		"import_new_report": "Import new report SR-C",
 		"failed_to_insert": "Failed to insert SR-C",
 		"replace_warning": "All data from the active spreadsheet will be replaced. Are you sure? SR-C",
-		"replace": "Replace SR-C"
+		"replace": "Replace SR-C",
+		"no_reports_available": "No reports available SR-C"
 	},
 	"filters": {
 		"show_filters": "Show Filters SR-C",

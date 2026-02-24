@@ -141,7 +141,8 @@
 		"import_new_report": "Import new report",
 		"failed_to_insert": "Failed to insert",
 		"replace_warning": "All data from the active spreadsheet will be replaced. Are you sure?",
-		"replace": "Replace"
+		"replace": "Replace",
+		"no_reports_available": "No reports available"
 	},
 	"filters": {
 		"show_filters": "Show Filters",

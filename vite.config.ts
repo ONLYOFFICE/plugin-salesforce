@@ -70,10 +70,6 @@ export default defineConfig(({ mode }) => {
             src: "config.json",
             dest: ".",
           },
-          {
-            src: "translations",
-            dest: ".",
-          },
         ],
       }),
     ],

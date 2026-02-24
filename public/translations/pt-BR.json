@@ -91,7 +91,11 @@
 		"first_row_headers_desc": "The first row of your selection will be used as column headers for field mapping. BR",
 		"loading_data": "Loading data... BR",
 		"select_object": "Select Target Object BR",
+		"select_target_salesforce_object": "Select target Salesforce object BR",
 		"search_object": "Search object... BR",
+		"enter_or_select_object": "Enter or select object BR",
+		"target_object": "Target Object BR",
+		"mapping_instructions": "For each exported column, specify the corresponding location in Salesforce. BR",
 		"create": "Create BR",
 		"update": "Update BR",
 		"id_column": "ID Column BR",
@@ -114,7 +118,9 @@
 		"no_field_mappings": "No field mappings configured BR",
 		"failed_to_read_data": "Failed to read spreadsheet data BR",
 		"export_with_errors": "Export completed with errors. {{success}} succeeded, {{failed}} failed. BR",
+		"export_with_errors_alt": "Export completed with errors. {{failed}} failed. BR",
 		"export_completed_success": "Export completed! {{count}} records created. BR",
+		"export_completed_success_single": "Data export completed successfully! The record has been created. BR",
 		"export_more": "Export More BR"
 	},
 	"reports": {
@@ -135,7 +141,8 @@
 		"import_new_report": "Import new report BR",
 		"failed_to_insert": "Failed to insert BR",
 		"replace_warning": "All data from the active spreadsheet will be replaced. Are you sure? BR",
-		"replace": "Replace BR"
+		"replace": "Replace BR",
+		"no_reports_available": "No reports available BR"
 	},
 	"filters": {
 		"show_filters": "Show Filters BR",

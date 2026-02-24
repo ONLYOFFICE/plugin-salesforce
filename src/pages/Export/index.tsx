@@ -146,9 +146,25 @@ export function Export() {
           });
         }
 
-        const errorMessages = result?.errors?.length
-          ? result.errors.map((e) => `${t('export.row')} ${e.row}: ${e.message}`).join('\n\n')
-          : null;
+        const errorMessages = (() => {
+          if (!result?.errors?.length) return null;
+
+          const grouped = result.errors.reduce((map, e) => {
+            map.set(e.message, [...(map.get(e.message) || []), e.row]);
+            return map;
+          }, new Map<string, number[]>());
+
+          return [...grouped].map(([msg, rows]) => {
+            const label = rows.length === 1 ? t('export.row') : t('export.rows');
+            const sorted = rows.sort((a, b) => a - b);
+            const ranges = sorted.reduce<string[]>((acc, row, i) => {
+              if (i === 0 || row !== sorted[i - 1] + 1) acc.push(String(row));
+              else acc[acc.length - 1] = acc[acc.length - 1].split('-')[0] + '-' + row;
+              return acc;
+            }, []);
+            return `${label} ${ranges.join(', ')}: ${msg}`;
+          }).join('\n\n');
+        })();
 
         return (
           <>

@@ -62,4 +62,6 @@
 	letter-spacing: var(--letter-spacing);
 
 	color: var(--color-text-secondary);
+
+	white-space: pre-wrap;
 }

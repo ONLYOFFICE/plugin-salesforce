@@ -121,7 +121,9 @@
 		"export_with_errors_alt": "Export completed with errors. {{failed}} failed. BR",
 		"export_completed_success": "Export completed! {{count}} records created. BR",
 		"export_completed_success_single": "Data export completed successfully! The record has been created. BR",
-		"export_more": "Export More BR"
+		"export_more": "Export More BR",
+		"row": "Row BR",
+		"salesforce_errors": "Salesforce Errors BR"
 	},
 	"reports": {
 		"title": "Reports BR",

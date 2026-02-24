@@ -121,7 +121,9 @@
 		"export_with_errors_alt": "Export completed with errors. {{failed}} failed. SR-C",
 		"export_completed_success": "Export completed! {{count}} records created. SR-C",
 		"export_completed_success_single": "Data export completed successfully! The record has been created. SR-C",
-		"export_more": "Export More SR-C"
+		"export_more": "Export More SR-C",
+		"row": "Row SR-C",
+		"salesforce_errors": "Salesforce Errors SR-C"
 	},
 	"reports": {
 		"title": "Reports SR-C",

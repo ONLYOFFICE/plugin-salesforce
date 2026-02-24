@@ -145,13 +145,26 @@ export function Export() {
             failed: result?.errorCount ?? 0,
           });
         }
+
+        const errorMessages = result?.errors?.length
+          ? result.errors.map((e) => `${t('export.row')} ${e.row}: ${e.message}`).join('\n\n')
+          : null;
+
         return (
-          <SuccessMessage
-            message={message}
-            actions={[
-              { label: t('export.export_more'), onClick: reset },
-            ]}
-          />
+          <>
+            <SuccessMessage
+              message={message}
+              actions={[
+                { label: t('export.export_more'), onClick: reset },
+              ]}
+            />
+            {errorMessages && (
+              <ErrorBox
+                title={t('export.salesforce_errors')}
+                message={errorMessages}
+              />
+            )}
+          </>
         );
       }
 

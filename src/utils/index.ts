@@ -21,5 +21,5 @@ export {
 } from './i18n';
 
 export function openGuide(): void {
-  window.open('https://api.onlyoffice.com/plugin/basic');
+  window.open('https://api.onlyoffice.com/docs/plugin-and-macros/get-started/');
 }

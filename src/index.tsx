@@ -37,6 +37,9 @@ import { Import } from '@pages/Import';
 import { Export } from '@pages/Export';
 import { Reports } from '@pages/Reports';
 import { Settings } from '@pages/Settings';
+import { DesktopPlaceholder } from '@pages/DesktopPlaceholder';
+
+import { isDesktop } from '@utils';
 
 import '@components/modal/confirmation/Confirmation';
 import '@components/modal/soql/SoqlEditor';
@@ -114,4 +117,4 @@ export function App() {
   );
 }
 
-render(<App />, document.getElementById('app'));
+render(isDesktop ? <DesktopPlaceholder /> : <App />, document.getElementById('app')!);

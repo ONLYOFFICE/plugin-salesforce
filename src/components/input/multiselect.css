@@ -112,7 +112,7 @@
 .multiselect__label input[type="checkbox"]:checked {
 	border-color: var(--color-text-secondary);
 	background-color: var(--color-bg);
-	background-image: url("../../../resources/images/checkmark_default.svg");
+	background-image: url("@resources/images/checkmark_default.svg");
 	background-size: 12px;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -120,23 +120,23 @@
 
 body.theme-dark .multiselect__label input[type="checkbox"]:checked,
 body.theme-type-dark .multiselect__label input[type="checkbox"]:checked {
-	background-image: url("../../../resources/images/checkmark_dark.svg");
+	background-image: url("@resources/images/checkmark_dark.svg");
 }
 
 body.theme-night.theme-type-dark .multiselect__label input[type="checkbox"]:checked {
 	border: 1px solid #6E9FEC;
 	background-color: #6E9FEC;
-	background-image: url("../../../resources/images/checkmark_night.svg");
+	background-image: url("@resources/images/checkmark_night.svg");
 }
 
 body.theme-white.theme-type-light .multiselect__label input[type="checkbox"]:checked {
 	border: 1px solid #4A87E7;
 	background-color: #4A87E7;
-	background-image: url("../../../resources/images/checkmark_white.svg");
+	background-image: url("@resources/images/checkmark_white.svg");
 }
 
 body.theme-contrast-dark.theme-type-dark .multiselect__label input[type="checkbox"]:checked {
-	background-image: url("../../../resources/images/checkmark_dark.svg");
+	background-image: url("@resources/images/checkmark_dark.svg");
 }
 
 .multiselect__text {

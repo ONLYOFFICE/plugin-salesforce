@@ -29,7 +29,8 @@
                     const hash = window.location.hash.slice(1);
                     if (hash && window.opener) {
                         const params = Object.fromEntries(new URLSearchParams(hash));
-                        window.opener.postMessage({ type: 'salesforce_auth', params }, '*');
+                        const redirectUri = new URL('./oauth.html', window.location.href).href;
+                        window.opener.postMessage({ type: 'salesforce_auth', params, redirectUri }, '*');
                     }
                 } finally {
                     window.close();

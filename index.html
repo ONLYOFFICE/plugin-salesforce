@@ -64,16 +64,15 @@
 				
 				window.Asc.plugin.button = function(id, windowId) {
 					window.dispatchEvent(new CustomEvent('plugin:button', { detail: { id: id, windowId: windowId } }));
-					if (windowId === undefined || windowId === null) {
-						if (id === -1 || id === '-1' || id === 1 || id === '1')
-							window.Asc.plugin.executeCommand('close', '');
-					}
+					if (id === -1 || id === '-1' || id === 1 || id === '1')
+						this.executeCommand('close', '');
 				};
 			})();
 		</script>
+		<link rel="stylesheet" href="./dist/index.css">
+		<script type="module" src="./dist/index.js"></script>
 	</head>
 	<body class="theme-light theme-type-light">
 		<div id="app"></div>
-		<script type="module" src="./src/index.tsx"></script>
 	</body>
 </html>

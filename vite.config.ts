@@ -17,34 +17,34 @@
  */
 
 import preact from "@preact/preset-vite";
-import { defineConfig, loadEnv } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 
-const REQUIRED_ENV_VARS = [
-  "VITE_REDIRECT_URI",
-];
-
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
-  const missing = REQUIRED_ENV_VARS.filter((key) => !env[key]);
-  if (missing.length > 0)
-    throw new Error(
-      `Missing required environment variables:\n  - ${missing.join(
-        "\n  - "
-      )}\n\n` +
-        "Please set them in .env file or pass them when running the build command."
-    );
-
+export default defineConfig(() => {
   return {
     base: "./",
+    publicDir: false,
+    build: {
+      outDir: "dist",
+      assetsDir: "",
+      emptyOutDir: true,
+      rollupOptions: {
+        input: fileURLToPath(new URL("./src/index.tsx", import.meta.url)),
+        output: {
+          entryFileNames: "index.js",
+          chunkFileNames: "chunk-[name].js",
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name?.endsWith(".css")) return "index.css";
+            return "[name][extname]";
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
         "@api": fileURLToPath(new URL("./src/api", import.meta.url)),
-        "@components": fileURLToPath(
-          new URL("./src/components", import.meta.url)
-        ),
+        "@components": fileURLToPath(new URL("./src/components", import.meta.url)),
         "@features": fileURLToPath(new URL("./src/features", import.meta.url)),
         "@hooks": fileURLToPath(new URL("./src/hooks", import.meta.url)),
         "@pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
@@ -56,22 +56,6 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       preact(),
-      viteStaticCopy({
-        targets: [
-          {
-            src: "resources/*",
-            dest: "resources",
-          },
-          {
-            src: "oauth.html",
-            dest: ".",
-          },
-          {
-            src: "config.json",
-            dest: ".",
-          },
-        ],
-      }),
     ],
   };
 });
